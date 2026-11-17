@@ -465,6 +465,7 @@ function buildLevel1() {
   floor(376, 376, 11, 'K'); floor(377, 377, 10, 'K'); floor(378, 378, 9, 'K'); floor(379, 379, 8, 'K'); floor(380, 381, 7, 'K');     // the last staircase
   stars(380, 5, 2); arc(382, 7, 6, 1.2);
   b.npc(387, 12, 'pai', [['npc:pai', 'PAPAI PEDRO: QUE BOM QUE VOCÊ CHEGOU! OLHA O QUE ACHEI NO PORTÃO: UMA COLEIRINHA COM SININHO. ALGUÉM PASSOU POR AQUI COM OS GATINHOS.'], ['luisa', 'É A COLEIRA DO FRAJOLINHA DA PRAÇA! ENTÃO ELES SAÍRAM DO CONDOMÍNIO...']]);
+  for (var si = 0; si < b.ents.length; si++) if (b.ents[si].t === 'ginger' && !b.ents[si].skin) b.ents[si].skin = 'escorp';      // at home, in the condominium, the fast runner is a scorpion instead of the toy robot
   return b.done(394, { goal: 'house', time: 500, theme: 0, zones: [[0, 'A RUA'], [185, 'O JARDIM'], [263, 'O QUINTAL'], [341, 'A PRAÇA'], [491, 'O PATINETE'], [671, 'A CHEGADA']],
     brief: [
       ['info', 'MUNDO 1: MEU CANTINHO. FASE 1: A CASA. OBJETIVO: ACHAR OS 3 GATINHOS E CHEGAR NA PORTA DE CASA.'],
@@ -581,6 +582,7 @@ function buildLevel2() {
   arc(406, 9, 6, 1.6);
   floor(411, 445, 12, 'Q'); deco('lamp', 413); deco('palm', 441);
   floor(418, 418, 11, 'K'); floor(419, 419, 10, 'K'); floor(420, 420, 9, 'K'); floor(421, 422, 8, 'K'); stars(421, 6, 2); arc(423, 8, 6, 1.2);
+  for (var si = 0; si < b.ents.length; si++) if (b.ents[si].t === 'ginger' && !b.ents[si].skin) b.ents[si].skin = 'escorp';      // in the condominium the fast runner is a scorpion, not the toy robot
   return b.done(433, { goal: 'gate', time: 500, theme: 1, zones: [[0, 'A PORTARIA'], [96, 'AS PRAÇAS'], [201, 'A PISCINA'], [315, 'O QUADRICICLO'], [535, 'O TERRENO VAZIO'], [571, 'AS OBRAS'], [631, 'O PORTÃO']],
     brief: [
       ['info', 'MUNDO 1: MEU CANTINHO. FASE 2: O CONDOMÍNIO ALPHAVILLE VOLTA REDONDA. OBJETIVO: ACHAR OS 3 GATINHOS E CHEGAR AO PORTÃO.'],
@@ -3741,6 +3743,17 @@ function rideArch(d) {                   // a banner across the road, held by tw
   rect(x - w / 2 - 2, y - 72, w + 4, 15, '#2c3448'); for (i = 0; i < (w + 4) / 6; i++) rect(x - w / 2 - 2 + i * 6, y - 72 + (i % 2) * 2, 3, 2, '#faf8f4');
   rect(x - w / 2 - 2, y - 59, w + 4, 2, '#e9404a'); text(d.txt, x, y - 67, 'fontW', 'c');
 }
+
+// the scorpion of the condominium (same behaviour as the toy robot)
+PROCS.escorp = function (e, t) {
+  var x = Math.round(e.x), y = Math.round(e.y), d = e.dir < 0 ? -1 : 1, f = Math.floor(t * 10) % 2, c = '#d8742c', k = '#8a3c14', i;
+  for (i = 0; i < 3; i++) rect(x - 5 + i * 4 + (i % 2 ? f : -f), y - 2, 1, 2, k);
+  rect(x - 6, y - 6, 12, 4, c); rect(x - 5, y - 7, 9, 1, c); rect(x - 5, y - 3, 10, 1, k);
+  rect(x + d * 5 - 2, y - 7, 5, 5, c); rect(x + d * 6 - (d < 0 ? 1 : 0), y - 6, 1, 1, '#1c1014');
+  rect(x + d * 8 - 1, y - 5, 3, 2, k); rect(x + d * 10 - 1, y - 8, 3, 3, c); rect(x + d * 10 - 1, y - 4, 3, 2, c); rect(x + d * 12 - 1, y - 6, 2, 1, k);
+  rect(x - d * 7 - 1, y - 9, 3, 4, c); rect(x - d * 8 - 1, y - 12, 3, 3, c); rect(x - d * 7 - 1, y - 15, 3, 3, c); rect(x - d * 5 - 1, y - 17, 3, 3, c); rect(x - d * 3 - 1, y - 16, 2, 3, '#2a1a14');
+};
+TIPS.escorp = ['proc:escorp', 'ESCORPIÃO! ELE CORRE RÁPIDO. PULE EM CIMA DELE OU USE A RAQUETE.'];
 window.__plat = {
   get hd() { return [HD, HD2, UIK]; },
   hurt: function () { hurt(); },
